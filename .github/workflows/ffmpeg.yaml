@@ -17,9 +17,10 @@ jobs:
     strategy:
       matrix:
         variant:
-          - actuated-rpi4
-          - actuated-rpi5
+#          - actuated-rpi4
+#          - actuated-rpi5
           - actuated-q80
+          - actuated-m1
     runs-on: [actuated-arm64, "${{ matrix.variant }}"]
 
     steps:
