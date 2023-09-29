@@ -1,0 +1,37 @@
+name: explore
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+      - 'master'
+  push:
+      branches:
+      - 'main'
+      - 'master'
+  workflow_dispatch:
+
+jobs:
+  ffmpeg:
+    name: ffmpeg
+    strategy:
+      matrix:
+        variant:
+          - actuated-rpi4
+          - actuated-rpi5
+          - actuated-q80
+    runs-on: [actuated-arm64, "${{ matrix.variant }}"]
+
+    steps:
+      - name: Install ffmpeg
+        run: |
+            sudo apt update -qqy && \
+              sudo apt install -qy ffmpeg
+      - name: Download video
+        run: |
+          curl -SL -O https://cobras.hockey/Goals.mp4
+      - name: Encode video
+        run: |
+          du -h Goals.mp4
+          ffmpeg -i Goals.mp4 output.mp4
+          du -h output.mp4
